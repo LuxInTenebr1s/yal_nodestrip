@@ -1,0 +1,33 @@
+#include <dt-bindings/pwm/pwm.h>
+
+/ {
+	aliases {
+		pwm-0 = &ledc0;
+		pwm-led0 = &pwm_led_blue;
+	};
+
+	pwmleds {
+		compatible = "pwm-leds";
+		pwm_led_blue: pwm_led_gpio_d15 {
+			label = "PWM LED0";
+			pwms = <&ledc0 4 0 PWM_POLARITY_NORMAL>;
+		};
+	};
+};
+
+/ {
+	leds {
+		status = "disabled";
+	};
+};
+
+&timers4 {
+	st,prescaler = <10000>;
+	status = "okay";
+
+	ledc0: pwm {
+		status = "okay";
+		pinctrl-0 = <&tim4_ch4_pd15>;
+		pinctrl-names = "default";
+	};
+};
